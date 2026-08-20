@@ -45,31 +45,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Background Music Control (Chrome-Friendly)
-  const audio = document.getElementById('bg-music');
+  // 4. Background Music Control (Chrome Full Fix)
+  const bgMusic = new Audio('./media/color-of-your-night.mp3');
+  bgMusic.loop = true;
+  bgMusic.volume = 0.5; // Atur volume (0.0 - 1.0)
 
-  if (audio) {
-    const startAudio = () => {
-      audio.muted = false;
-      
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          console.log("Audio Persona 3 berhasil diputar di Chrome!");
-        }).catch(error => {
-          console.log("Chrome memblokir autoplay:", error);
+  let isPlaying = false;
+
+  const playPersonaMusic = () => {
+    if (!isPlaying) {
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        console.log("Audio Persona 3 diputar di Chrome!");
+        
+        // Hapus listener jika audio sudah berhasil jalan
+        ['click', 'touchstart', 'keydown'].forEach(event => {
+          document.removeEventListener(event, playPersonaMusic);
         });
-      }
-
-      // Hapus listener hanya jika audio benar-benar berhasil jalan
-      ['click', 'touchstart', 'keydown'].forEach(event => {
-        document.removeEventListener(event, startAudio);
+      }).catch(err => {
+        console.log("Chrome memblokir autoplay, menunggu klik:", err);
       });
-    };
+    }
+  };
 
-    // Chrome MENGHARUSKAN klik, sentuhan layar, atau tekan tombol keyboard
-    ['click', 'touchstart', 'keydown'].forEach(event => {
-      document.addEventListener(event, startAudio, { once: true });
-    });
-  }
+  // Dengarkan interaksi nyata (Klik / Sentuh / Tekan Tombol)
+  ['click', 'touchstart', 'keydown'].forEach(event => {
+    document.addEventListener(event, playPersonaMusic);
+  });
 });
