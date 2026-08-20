@@ -45,31 +45,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Background Music Control (Dimasukkan ke dalam DOMContentLoaded)
+  // 4. Background Music Control (Chrome-Friendly)
   const audio = document.getElementById('bg-music');
 
   if (audio) {
-    const unmuteAudio = () => {
+    const startAudio = () => {
       audio.muted = false;
       
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          console.log("Audio Persona 3 diputar!");
+          console.log("Audio Persona 3 berhasil diputar di Chrome!");
         }).catch(error => {
-          console.log("Autoplay diblokir browser:", error);
+          console.log("Chrome memblokir autoplay:", error);
         });
       }
 
-      // Hapus event listener setelah interaksi pertama
-      ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(event => {
-        document.removeEventListener(event, unmuteAudio);
+      // Hapus listener hanya jika audio benar-benar berhasil jalan
+      ['click', 'touchstart', 'keydown'].forEach(event => {
+        document.removeEventListener(event, startAudio);
       });
     };
 
-    // Picu pembukaan kunci audio saat pengguna berinteraksi
-    ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(event => {
-      document.addEventListener(event, unmuteAudio, { once: true });
+    // Chrome MENGHARUSKAN klik, sentuhan layar, atau tekan tombol keyboard
+    ['click', 'touchstart', 'keydown'].forEach(event => {
+      document.addEventListener(event, startAudio, { once: true });
     });
   }
 });
