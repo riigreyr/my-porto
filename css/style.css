@@ -1,0 +1,667 @@
+/* ==========================================
+   1. VARIABLES & BASE SETUP (P3 RELOAD PALETTE)
+   ========================================== */
+:root {
+  --bg-dark: #030812;
+  --bg-gradient: linear-gradient(135deg, #02060f 0%, #081a3e 50%, #0044b3 100%);
+  --p3-blue: #0055ff;
+  --p3-cyan: #00e5ff;
+  --p3-dark-blue: #001433;
+  --p3-yellow: #ffde59;
+  --p3-neon-glow: rgba(0, 229, 255, 0.4);
+  --text-light: #ffffff;
+  --skew-deg: -12deg;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-gradient);
+  color: var(--text-light);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Background Grid & Watermark */
+.bg-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.p3-watermark {
+  position: fixed;
+  bottom: 20px;
+  right: -30px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 5rem;
+  color: rgba(0, 229, 255, 0.03);
+  font-weight: 900;
+  transform: rotate(-90deg);
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+}
+
+/* ==========================================
+   2. TYPOGRAPHY & UTILS
+   ========================================== */
+h1, h2, h3, .p3-font {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  color: var(--p3-cyan);
+  text-shadow: 3px 3px 0px var(--p3-dark-blue);
+  display: inline-block;
+  transform: skewX(var(--skew-deg));
+  background: var(--p3-dark-blue);
+  padding: 4px 30px;
+  border-left: 6px solid var(--p3-cyan);
+  border-right: 2px solid var(--p3-cyan);
+  margin-bottom: 2.5rem;
+  box-shadow: 0 0 15px var(--p3-neon-glow);
+}
+
+.subsection-title {
+  font-size: 2.2rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--p3-cyan);
+  display: inline-block;
+}
+
+/* ==========================================
+   3. NAVIGATION BAR
+   ========================================== */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 8%;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(2, 6, 15, 0.95), transparent);
+  backdrop-filter: blur(5px);
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--text-light);
+  transform: skewX(var(--skew-deg));
+}
+
+.logo span {
+  color: var(--p3-cyan);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  background: rgba(0, 85, 255, 0.25);
+  transform: skewX(var(--skew-deg));
+  display: inline-block;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(0, 229, 255, 0.4);
+}
+
+.nav-links a:hover {
+  background: var(--p3-cyan);
+  color: var(--bg-dark);
+  transform: skewX(var(--skew-deg)) translateY(-2px);
+  box-shadow: 0 0 15px var(--p3-cyan);
+}
+
+/* ==========================================
+   4. HERO SECTION & MAKOTO YUKI ALBUM ANIMATION
+   ========================================== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10%;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--p3-dark-blue);
+  color: var(--p3-cyan);
+  padding: 4px 12px;
+  font-weight: 700;
+  border: 1px solid var(--p3-cyan);
+  transform: skewX(var(--skew-deg));
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-size: 5.5rem;
+  line-height: 0.9;
+  margin: 10px 0;
+  color: var(--text-light);
+  text-shadow: 5px 5px 0px var(--p3-blue), -2px -2px 0px var(--p3-cyan);
+}
+
+.hero-desc {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #c0d4f0;
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.btn-p3 {
+  font-size: 1.3rem;
+  padding: 10px 28px;
+  border: none;
+  cursor: pointer;
+  transform: skewX(var(--skew-deg));
+  font-weight: bold;
+  transition: all 0.2s;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-primary {
+  color: var(--bg-dark);
+  background: var(--p3-cyan);
+  box-shadow: 4px 4px 0px var(--p3-blue);
+}
+
+.btn-primary:hover {
+  background: var(--p3-yellow);
+  transform: skewX(var(--skew-deg)) translate(-3px, -3px);
+  box-shadow: 7px 7px 0px var(--p3-blue);
+}
+
+.btn-secondary {
+  color: var(--p3-cyan);
+  background: transparent;
+  border: 2px solid var(--p3-cyan);
+  box-shadow: 4px 4px 0px var(--p3-dark-blue);
+}
+
+.btn-secondary:hover {
+  background: var(--p3-blue);
+  color: var(--text-light);
+  transform: skewX(var(--skew-deg)) translate(-3px, -3px);
+  box-shadow: 7px 7px 0px var(--p3-cyan);
+}
+
+/* Makoto Yuki Album Effects */
+.hero-avatar {
+  position: relative;
+  width: 350px;
+  height: 470px;
+  transform: skewX(var(--skew-deg));
+  cursor: pointer;
+  animation: p3AlbumFloat 4s ease-in-out infinite alternate;
+  perspective: 1000px;
+}
+
+.aura-glow {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.4) 0%, rgba(0, 85, 255, 0.2) 50%, transparent 80%);
+  border-radius: 20px;
+  z-index: 0;
+  animation: auraPulse 3s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* ==========================================
+   PERBAIKAN FITUR GAMBAR/GIF RASIO 16:9
+   ========================================== */
+
+/* Frame Avatar disesuaikan agar pas menampung gif */
+.avatar-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000c1e; /* Background gelap agar sisa area tetap terlihat rapi */
+  border: 4px solid var(--p3-cyan);
+  box-shadow: -15px 15px 0px var(--p3-dark-blue), 0 0 30px var(--p3-neon-glow);
+  overflow: hidden;
+  z-index: 2;
+  transition: transform 0.1s ease-out;
+}
+
+/* ==========================================
+   PERBAIKAN FITUR GAMBAR/GIF PORTRAIT
+   ========================================== */
+
+/* ==========================================
+   PERBAIKAN FULL COVER SUDUT SIKU (NO BLACK BORDERS)
+   ========================================== */
+
+.makoto-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Posisikan fokus sedikit ke bawah agar kepala/wajah Makoto Yuki tidak terpotong saat di-zoom */
+  object-position: center 65%;
+  /* Zoom dinaikkan ke 1.35x agar sudut siku terisi penuh tanpa celah hitam */
+  transform: skewX(calc(var(--skew-deg) * -1)) scale(1.35);
+  transition: transform 0.4s ease;
+  filter: contrast(1.15) brightness(0.95);
+}
+
+.hero-avatar:hover .makoto-img {
+  /* Zoom tambahan saat kursor di-hover */
+  transform: skewX(calc(var(--skew-deg) * -1)) scale(1.42);
+  filter: contrast(1.2) brightness(1.05);
+}
+
+.glass-shimmer {
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(0, 229, 255, 0.3) 50%,
+    transparent 55%
+  );
+  animation: shimmerSweep 5s infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.p3-cutin-strip {
+  position: absolute;
+  bottom: 12px;
+  left: -10px;
+  background: var(--p3-cyan);
+  color: var(--bg-dark);
+  font-weight: 900;
+  font-size: 0.85rem;
+  padding: 4px 18px;
+  letter-spacing: 2px;
+  box-shadow: 3px 3px 0px var(--p3-blue);
+  z-index: 4;
+}
+
+.sound-wave {
+  position: absolute;
+  border: 2px dashed rgba(0, 229, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wave-1 {
+  width: 400px;
+  height: 400px;
+  top: -30px;
+  left: -25px;
+  animation: spinWave 12s linear infinite;
+}
+
+.wave-2 {
+  width: 460px;
+  height: 460px;
+  top: -60px;
+  left: -55px;
+  border-color: rgba(0, 85, 255, 0.3);
+  animation: spinWave 18s linear infinite reverse;
+}
+
+/* Keyframes */
+@keyframes p3AlbumFloat {
+  0% { transform: skewX(var(--skew-deg)) translateY(0px) rotate(0deg); }
+  50% { transform: skewX(var(--skew-deg)) translateY(-15px) rotate(1deg); }
+  100% { transform: skewX(var(--skew-deg)) translateY(-5px) rotate(-1deg); }
+}
+
+@keyframes auraPulse {
+  0% { opacity: 0.5; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes shimmerSweep {
+  0% { transform: translate(-50%, -50%); }
+  20%, 100% { transform: translate(50%, 50%); }
+}
+
+@keyframes spinWave {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   5. STATUS / ABOUT & SKILLS
+   ========================================== */
+.section {
+  padding: 6rem 10%;
+  position: relative;
+  z-index: 1;
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.p3-tag-list {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.p3-tag {
+  background: var(--p3-blue);
+  color: #fff;
+  padding: 4px 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transform: skewX(var(--skew-deg));
+  border: 1px solid var(--p3-cyan);
+}
+
+.stats-card {
+  background: rgba(0, 20, 51, 0.8);
+  border: 2px solid var(--p3-cyan);
+  padding: 2rem;
+  transform: skewX(var(--skew-deg));
+  box-shadow: 8px 8px 0px var(--p3-dark-blue);
+}
+
+.stats-card * {
+  transform: skewX(calc(var(--skew-deg) * -1));
+}
+
+.card-header {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  color: var(--p3-yellow);
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed var(--p3-cyan);
+  padding-bottom: 5px;
+}
+
+.stat-row {
+  margin-bottom: 1.2rem;
+}
+
+.stat-label {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--p3-cyan);
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-bar-bg {
+  width: 100%;
+  height: 12px;
+  background: #000c1e;
+  border: 1px solid var(--p3-cyan);
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--p3-blue), var(--p3-cyan));
+  width: 0%;
+  transition: width 1s cubic-bezier(0.1, 0.5, 0.1, 1);
+}
+
+/* Skills Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.8rem;
+}
+
+.skill-card {
+  background: rgba(0, 34, 102, 0.4);
+  border: 2px solid rgba(0, 229, 255, 0.3);
+  padding: 1.8rem;
+  transform: skewX(var(--skew-deg));
+  transition: all 0.3s ease;
+}
+
+.skill-card:hover {
+  background: rgba(0, 85, 255, 0.6);
+  border-color: var(--p3-cyan);
+  transform: skewX(var(--skew-deg)) translateY(-6px);
+  box-shadow: 0 0 20px var(--p3-neon-glow);
+}
+
+.skill-card * {
+  transform: skewX(calc(var(--skew-deg) * -1));
+}
+
+.skill-icon {
+  font-size: 2.5rem;
+  color: var(--p3-cyan);
+  margin-bottom: 0.8rem;
+}
+
+.skill-card h3 {
+  font-size: 1.6rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.skill-card p {
+  color: #b0c8ee;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* ==========================================
+   6. PROJECTS SECTION
+   ========================================== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: rgba(0, 20, 51, 0.6);
+  border: 2px solid rgba(0, 229, 255, 0.4);
+  padding: 1.8rem;
+  transform: skewX(var(--skew-deg));
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.project-card:hover {
+  background: rgba(0, 68, 179, 0.8);
+  border-color: var(--p3-cyan);
+  transform: skewX(var(--skew-deg)) translateY(-8px);
+  box-shadow: 6px 6px 0px var(--p3-cyan);
+}
+
+.project-card-content {
+  transform: skewX(calc(var(--skew-deg) * -1));
+}
+
+.project-type {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--p3-yellow);
+  letter-spacing: 1px;
+}
+
+.project-card h3 {
+  font-size: 2rem;
+  color: var(--text-light);
+  margin: 0.3rem 0 0.8rem 0;
+}
+
+.project-card p {
+  color: #d0e0ff;
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+.tech-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: var(--p3-dark-blue);
+  color: var(--p3-cyan);
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border: 1px solid var(--p3-cyan);
+}
+
+/* ==========================================
+   7. FOOTER & CONTACT
+   ========================================== */
+footer {
+  text-align: center;
+  padding: 4rem 10% 2rem 10%;
+  background: #01040a;
+  border-top: 4px solid var(--p3-cyan);
+  position: relative;
+  z-index: 1;
+}
+
+.contact-box {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-title {
+  font-size: 3.5rem;
+  color: var(--p3-cyan);
+  text-shadow: 3px 3px 0px var(--p3-blue);
+}
+
+.contact-desc {
+  color: #8a9bb8;
+  font-size: 1.2rem;
+  margin: 10px 0 2.5rem 0;
+}
+
+.contact-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.btn-contact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  padding: 10px 22px;
+}
+
+.btn-contact.wa {
+  background: #25d366;
+  color: #000;
+  box-shadow: 4px 4px 0px #128c7e;
+}
+
+.btn-contact.discord {
+  background: #5865f2;
+  color: #fff;
+  box-shadow: 4px 4px 0px #3b42a4;
+}
+
+.btn-contact.email {
+  background: var(--p3-cyan);
+  color: #000;
+  box-shadow: 4px 4px 0px var(--p3-blue);
+}
+
+.btn-contact:hover {
+  transform: skewX(var(--skew-deg)) scale(1.05) translateY(-3px);
+  filter: brightness(1.15);
+}
+
+.copyright {
+  font-size: 0.85rem;
+  color: #4a5c7a;
+  letter-spacing: 1px;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    padding-top: 7rem;
+    text-align: center;
+  }
+
+  .hero-avatar {
+    margin-top: 2rem;
+    width: 280px;
+    height: 380px;
+  }
+
+  .about-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+}
