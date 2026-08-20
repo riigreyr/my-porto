@@ -44,23 +44,32 @@ document.addEventListener('DOMContentLoaded', () => {
       el.style.transition = 'all 0.15s ease-out';
     });
   });
-});
 
-  // 4. Background Music Control
+  // 4. Background Music Control (Dimasukkan ke dalam DOMContentLoaded)
   const audio = document.getElementById('bg-music');
 
-// Fungsi untuk menyalakan suara musik
-function unmuteAudio() {
-  audio.muted = false;
-  audio.play().catch(() => {});
-  
-  // Hapus event listener setelah suara berhasil aktif
-  ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(event => {
-    document.removeEventListener(event, unmuteAudio);
-  });
-}
+  if (audio) {
+    const unmuteAudio = () => {
+      audio.muted = false;
+      
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          console.log("Audio Persona 3 diputar!");
+        }).catch(error => {
+          console.log("Autoplay diblokir browser:", error);
+        });
+      }
 
-// Buka kunci suara musik saat ada gerakan/interaksi pertama pengguna
-['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(event => {
-  document.addEventListener(event, unmuteAudio, { once: true });
+      // Hapus event listener setelah interaksi pertama
+      ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(event => {
+        document.removeEventListener(event, unmuteAudio);
+      });
+    };
+
+    // Picu pembukaan kunci audio saat pengguna berinteraksi
+    ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(event => {
+      document.addEventListener(event, unmuteAudio, { once: true });
+    });
+  }
 });
