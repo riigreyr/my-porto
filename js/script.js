@@ -45,3 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+  // 4. Background Music Control
+  const audio = document.getElementById('bg-music');
+
+// Fungsi untuk menyalakan suara musik
+function unmuteAudio() {
+  audio.muted = false;
+  audio.play().catch(() => {});
+  
+  // Hapus event listener setelah suara berhasil aktif
+  ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(event => {
+    document.removeEventListener(event, unmuteAudio);
+  });
+}
+
+// Buka kunci suara musik saat ada gerakan/interaksi pertama pengguna
+['click', 'touchstart', 'mousemove', 'keydown', 'scroll'].forEach(event => {
+  document.addEventListener(event, unmuteAudio, { once: true });
+});
