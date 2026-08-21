@@ -665,3 +665,109 @@ footer {
     justify-content: center;
   }
 }
+
+/* ==========================================
+   8. MOBILE RESPONSIVE & HAMBURGER MENU
+   ========================================== */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  color: var(--p3-cyan);
+  cursor: pointer;
+  z-index: 101;
+  transition: transform 0.2s ease;
+}
+
+.hamburger:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 900px) {
+  /* Tampilkan Tombol Hamburger */
+  .hamburger {
+    display: block;
+  }
+
+  /* Sembunyikan Nav Links ke Atas / Slide-Down */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 75%;
+    height: 100vh;
+    background: rgba(2, 6, 15, 0.98);
+    backdrop-filter: blur(10px);
+    border-left: 3px solid var(--p3-cyan);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    transition: right 0.4s cubic-bezier(0.1, 0.5, 0.1, 1);
+    z-index: 99;
+  }
+
+  /* Class Aktif untuk Memunculkan Menu */
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    font-size: 1.4rem;
+    padding: 10px 30px;
+    width: 200px;
+    text-align: center;
+  }
+
+  /* Perbaikan Tampilan Hero di HP */
+  .hero {
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 3.8rem;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+
+  .hero-avatar {
+    margin: 2rem auto 0 auto;
+    width: 260px;
+    height: 350px;
+  }
+
+  /* Penyesuaian Wave Lingkaran di HP */
+  .wave-1, .wave-2 {
+    display: none;
+  }
+
+  .section {
+    padding: 4rem 6%;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  /* Grid Layout Responsif */
+  .about-container {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-contact {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+}
